@@ -25,31 +25,39 @@ const ytdlpPath = path.join(__dirname, "yt-dlp");
 // ================= PREVIEW =================
 app.post("/api/preview", async (req, res) => {
   try {
-    const process = spawn(ytdlpPath, ["--dump-json", req.body.url]);
+    const process = spawn(ytdlpPath, ["--dump-single-json", req.body.url]);
 
     let data = "";
 
     process.stdout.on("data", (chunk) => (data += chunk));
 
-    process.on("close", () => {
-      try {
+    process.on("close", (code) => {
+    try {
+        if (!data || data.trim() === "") {
+        return res.status(500).json({ error: "Empty response from yt-dlp" });
+        }
+
         const json = JSON.parse(data);
 
         const formats = json.formats
-          .filter((f) => f.ext === "mp4" && f.height)
-          .map((f) => ({
+        .filter((f) => f.ext === "mp4" && f.height)
+        .map((f) => ({
             id: f.format_id,
             quality: f.height + "p",
-          }));
+        }));
 
         res.json({
-          title: json.title,
-          thumbnail: json.thumbnail,
-          formats,
+        title: json.title,
+        thumbnail: json.thumbnail,
+        formats,
         });
-      } catch (err) {
+
+    } catch (err) {
+        console.log("Raw yt-dlp output:", data.slice(0, 300));
+        console.log("Parse error:", err.message);
+
         res.status(500).json({ error: "Failed to parse video data" });
-      }
+    }
     });
 
   } catch (err) {
