@@ -33,7 +33,7 @@ app.post("/api/preview", async (req, res) => {
                 "--no-warnings",
                 "--no-playlist",
                 "--extractor-args",
-                "youtube:player_client=android",
+                "youtube:player_client=default,-android_sdkless",
                 req.body.url,
                 ]);
 
