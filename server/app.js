@@ -27,12 +27,13 @@ app.post("/api/preview", async (req, res) => {
     console.log("Preview API hit");
 
     const process = spawn(ytdlpPath, [
-        "--dump-single-json",
-        "--no-warnings",
-        "--no-playlist",
-        "-J",
-        req.body.url,
-        ]);
+                "--dump-single-json",
+                "--no-warnings",
+                "--no-playlist",
+                "--extractor-args",
+                "youtube:player_client=android",
+                req.body.url,
+                ]);
 
     let data = "";
 
@@ -59,6 +60,14 @@ app.post("/api/preview", async (req, res) => {
                 id: f.format_id,
                 quality: f.height + "p",
             }));
+
+
+            if (!json || !json.formats) {
+                return res.status(500).json({
+                    error: "Video data not available (YouTube blocked request)",
+                });
+            }
+
 
             res.json({
             title: json.title,
