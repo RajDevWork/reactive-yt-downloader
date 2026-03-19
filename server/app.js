@@ -18,8 +18,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 🔥 yt-dlp path (LOCAL FILE)
-const ytdlpPath = path.join(__dirname, "yt-dlp");
-
+const isProd = process.env.NODE_ENV === "production";
+const ytdlpPath = isProd
+  ? path.join(__dirname, "yt-dlp")   // Render (Linux)
+  : path.join(__dirname, "yt-dlp.exe"); // Local (Windows)
 
 // ================= PREVIEW =================
 app.post("/api/preview", async (req, res) => {
