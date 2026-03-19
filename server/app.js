@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 
 // ================= PREVIEW =================
 app.post("/api/preview", async (req, res) => {
-  const process = spawn("yt-dlp", ["--dump-json", req.body.url]);
+  const process = spawn("./yt-dlp", ["--dump-json", req.body.url]);
 
   let data = "";
   process.stdout.on("data", (chunk) => (data += chunk));
@@ -52,7 +52,7 @@ app.post("/api/download", (req, res) => {
 
   res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
-  const process = spawn("yt-dlp", ["-f", format, "-o", "-", url]);
+  const process = spawn("./yt-dlp", ["-f", format, "-o", "-", url]);
 
   process.stdout.pipe(res);
 
