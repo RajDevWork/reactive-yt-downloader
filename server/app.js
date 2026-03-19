@@ -4,6 +4,10 @@ import http from "http";
 import { Server } from "socket.io";
 import { spawn } from "child_process";
 
+// 🔥 ADD THESE
+import path from "path";
+import { fileURLToPath } from "url";
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
@@ -11,6 +15,9 @@ const io = new Server(server, { cors: { origin: "*" } });
 app.use(cors());
 app.use(express.json());
 
+// 🔥 PATH SETUP (IMPORTANT)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ================= PREVIEW =================
 app.post("/api/preview", async (req, res) => {
@@ -21,6 +28,7 @@ app.post("/api/preview", async (req, res) => {
 
   process.on("close", () => {
     const json = JSON.parse(data);
+
     const formats = json.formats
       .filter((f) => f.ext === "mp4" && f.height)
       .map((f) => ({
@@ -36,19 +44,13 @@ app.post("/api/preview", async (req, res) => {
   });
 });
 
-// ================= DOWNLOAD STREAM =================
+// ================= DOWNLOAD =================
 app.post("/api/download", (req, res) => {
   const { url, format, jobId } = req.body;
 
   res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
-  const process = spawn("yt-dlp", [
-  "-f",
-  format,
-  "-o",
-  "-",
-  url,
-]);
+  const process = spawn("yt-dlp", ["-f", format, "-o", "-", url]);
 
   process.stdout.pipe(res);
 
@@ -63,5 +65,18 @@ app.post("/api/download", (req, res) => {
 });
 
 
+// ======================================================
+// 🔥🔥 STEP-4 (VERY IMPORTANT) — FRONTEND SERVE
+// ======================================================
+
+// static files serve
+app.use(express.static(path.join(__dirname, "public")));
+
+// React routing fix
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// ======================================================
 
 server.listen(5000, () => console.log("Server running"));
