@@ -107,7 +107,7 @@ function App() {
   <div className="absolute w-[500px] h-[500px] bg-blue-600 opacity-30 blur-[150px] bottom-[-150px] right-[-150px]" />
 
   {/* 💎 MAIN CARD */}
-  <div className="relative w-full max-w-2xl min-h-[120px] p-[1px] rounded-3xl bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500">
+  <div className="relative w-full max-w-2xl min-h-[100px] max-h-[620px] overflow-auto scrollbar-hide p-[1px] rounded-3xl bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500">
 
     <div className="bg-[#0b0b0b]/90 backdrop-blur-2xl rounded-3xl p-8 shadow-[0_0_60px_rgba(0,0,0,0.8)]">
 
@@ -130,7 +130,7 @@ function App() {
           className={`relative px-6 py-3 rounded-xl font-semibold text-white overflow-hidden group shadow-lg transition-all 
           ${loading || !url
             ? "bg-gray-600 cursor-not-allowed" 
-            : "bg-gradient-to-r from-purple-500 to-blue-500 hover:scale-105"}
+            : "bg-gradient-to-r from-purple-500 cursor-pointer to-blue-500 hover:scale-105"}
           `}
           
         >
@@ -214,7 +214,7 @@ function App() {
                 </div>
               ) : (
                 <span className="flex items-center justify-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4C16.5523 4 17 4.44772 17 5V9.2L22.2133 5.55071C22.4395 5.39235 22.7513 5.44737 22.9096 5.6736C22.9684 5.75764 23 5.85774 23 5.96033V18.0397C23 18.3158 22.7761 18.5397 22.5 18.5397C22.3974 18.5397 22.2973 18.5081 22.2133 18.4493L17 14.8V19C17 19.5523 16.5523 20 16 20H2C1.44772 20 1 19.5523 1 19V5C1 4.44772 1.44772 4 2 4H16ZM15 6H3V18H15V6ZM10 8V12H13L9 16L5 12H8V8H10ZM21 8.84131L17 11.641V12.359L21 15.1587V8.84131Z"></path></svg> Download Video
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M16 4C16.5523 4 17 4.44772 17 5V9.2L22.2133 5.55071C22.4395 5.39235 22.7513 5.44737 22.9096 5.6736C22.9684 5.75764 23 5.85774 23 5.96033V18.0397C23 18.3158 22.7761 18.5397 22.5 18.5397C22.3974 18.5397 22.2973 18.5081 22.2133 18.4493L17 14.8V19C17 19.5523 16.5523 20 16 20H2C1.44772 20 1 19.5523 1 19V5C1 4.44772 1.44772 4 2 4H16ZM15 6H3V18H15V6ZM10 8V12H13L9 16L5 12H8V8H10ZM21 8.84131L17 11.641V12.359L21 15.1587V8.84131Z"></path></svg> Download Video
                 </span>
               )}
 

@@ -28,3 +28,14 @@
   background-size: 200% auto;
   animation: gradientMove 3s linear infinite;
 }
+
+/* Hide scrollbar (Chrome, Safari) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar (Firefox) */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
