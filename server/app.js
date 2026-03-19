@@ -42,7 +42,7 @@ app.post("/api/download", (req, res) => {
 
   res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
-  const process = spawn("./yt-dlp.exe", [
+  const process = spawn("yt-dlp", [
   "-f",
   format,
   "-o",

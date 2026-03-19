@@ -1,8 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
 
 function App() {
   const [url, setUrl] = useState("");
@@ -13,16 +11,11 @@ function App() {
   const [jobId] = useState(Date.now().toString());
   const [downloading, setDownloading] = useState(false);
 
-  useEffect(() => {
-    socket.on(jobId, (data) => {
-      setProgress(parseFloat(data.progress));
-    });
-  }, []);
 
   const preview = async () => {
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/preview", { url });
+      const res = await axios.post("/api/preview", { url });
       setVideo(res.data);
     } finally {
       setLoading(false);
@@ -35,7 +28,7 @@ function App() {
     setProgress(0);
 
     const res = await axios.post(
-      "http://localhost:5000/api/download",
+      "/api/download",
       { url, format, jobId },
       {
         responseType: "blob",
